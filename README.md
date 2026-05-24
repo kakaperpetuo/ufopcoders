@@ -36,7 +36,7 @@ O UFOPCoders é uma aplicação web full-stack composta pelas seguintes funciona
 |--------|-----------|
 | Back-end | Django (Python) |
 | Front-end | React (JavaScript) |
-| Banco de Dados | PostgreSQL |
+| Banco de Dados | Supabase |
 
 ---
 
@@ -63,6 +63,55 @@ O UFOPCoders é uma aplicação web full-stack composta pelas seguintes funciona
 ## 🛠️ Como Rodar o Projeto Localmente
 
 ### Pré-requisitos
-- Python 3.10+
-- Node.js 18+
-- PostgreSQL
+
+- [Docker](https://www.docker.com/get-started) instalado
+- [Git](https://git-scm.com/) instalado
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/KakaPerpetuo/UfopCoders.git
+cd UfopCoders
+```
+
+### 2. Configure as variáveis de ambiente
+
+```bash
+cp .env.example .env
+```
+
+Abra o `.env` e preencha com as credenciais que estão no grupo (Discord/WhatsApp):
+
+```env
+SECRET_KEY=
+DEBUG=True
+DB_NAME=postgres
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+```
+
+### 3. Suba o projeto
+
+```bash
+make build
+```
+
+Aguarde o Docker baixar as imagens e instalar as dependências. Quando terminar:
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8000
+
+### 4. Comandos úteis
+
+| Comando | O que faz |
+|---|---|
+| `make build` | Builda e sobe tudo (primeira vez) |
+| `make start` | Sobe em background |
+| `make start-live` | Sobe com logs em tempo real |
+| `make stop` | Para tudo |
+| `make back` | Sobe só o backend |
+| `make front` | Sobe só o frontend |
+| `make migrate` | Roda as migrations do banco |
+| `make logs` | Mostra logs em tempo real |
