@@ -1,11 +1,23 @@
 services:
-  web:
-    build: .
-    container_name: demo-django
+  backend:
+    build: ./backend
+    container_name: ufop-coders-backend
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - ./backend:/app
+    env_file: #pelo arquivo .env, o django vai ler as variáveis de ambiente necessárias para se conectar ao banco de dados do Supabase
+      - .env
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: ufop-coders-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
