@@ -1,120 +1,183 @@
-import React, { useState } from "react";
-import { Mail, Lock } from 'lucide-react';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Mail, Lock, User } from "lucide-react";
 
 export default function Register() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [nameError, setNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
+
+        setNameError("");
+        setEmailError("");
+        setPasswordError("");
+        setConfirmPasswordError("");
 
         let valido = true;
 
+        if (!name) {
+            setNameError("O nome é obrigatório");
+            valido = false;
+        }
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
-            setEmailError("O e-mail é obrigatório")
+            setEmailError("O e-mail é obrigatório");
+            valido = false;
+        } else if (!emailRegex.test(email)) {
+            setEmailError("O email informado não é válido");
             valido = false;
         }
+
         if (!password) {
-            setPasswordError("A senha é obrigatória")
+            setPasswordError("A senha é obrigatória");
+            valido = false;
+        } else if (password.length < 8) {
+            setPasswordError("A senha deve ter pelo menos 8 caracteres");
             valido = false;
         }
-        if (!emailRegex.test(email)) {
-            setEmailError("O email informado não é válido")
+
+        if (!confirmPassword) {
+            setConfirmPasswordError("A confirmação de senha é obrigatória");
+            valido = false;
+        } else if (password !== confirmPassword) {
+            setConfirmPasswordError("As senhas não coincidem");
             valido = false;
         }
-        if (password.length < 8) {
-            setPasswordError("A senha deve ter pelo menos 8 caracteres")
-            valido = false;
-        }
+
         if (valido) {
-            console.log("Login:", email, password)
+            console.log("Register:", name, email, password);
+            navigate("/home");
         }
-    }
+    };
+
     return (
-        <div className="min-h-screen bg-[#09080f] text-white flex flex-col justify-center items-center p-4 font-sans">
-
-            <div className="text-center mb-8">
-                <div className="flex items-center justify-center gap-2 text-2xl font-bold mb-2">
-                    <span className="text-4xl text-[#8b5cf6] px-2 py-0.5 rounded">UC</span>
-                    <span className="text-[#8b5cf6] font-normal ">UFOP Coders</span>
+        <div className="dark min-h-screen bg-background flex items-center justify-center p-6">
+            <div className="w-full max-w-md">
+                <div className="text-center mb-8">
+                    <Link to="/" className="inline-flex items-center gap-2 mb-6">
+                        <div className="relative w-12 h-12">
+                            <svg viewBox="0 0 40 40" className="w-full h-full">
+                                <text
+                                    x="20"
+                                    y="30"
+                                    fontSize="28"
+                                    fontWeight="bold"
+                                    textAnchor="middle"
+                                    fill="#8b5cf6"
+                                >
+                                    UC
+                                </text>
+                            </svg>
+                        </div>
+                        <span className="text-2xl text-primary">UFOP Coders</span>
+                    </Link>
+                    <h2 className="text-foreground mb-2">Junte-se ao UFOP Coders</h2>
+                    <p className="text-muted-foreground">Crie uma conta para começar a colaborar</p>
                 </div>
-                <h1 className="text-xl font-semibold mt-4">Bem-vindo de volta</h1>
-                <p className="text-gray-400 text-sm mt-1">Faça login para continuar codando juntos</p>
-            </div>
 
-            <div className="w-full max-w-md bg-[#14121f] border border-gray-800/50 rounded-xl p-8 shadow-2xl">
-                <form className="space-y-6" onSubmit={handleLogin}>
+                <div className="bg-card border border-border rounded-lg p-8">
+                    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                        <div>
+                            <label htmlFor="name" className="block mb-2 text-card-foreground">
+                                Nome Completo
+                            </label>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                <input
+                                    id="name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Seu nome"
+                                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
+                            {nameError && <p className="text-red-500 text-xs mt-1">{nameError}</p>}
+                        </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300 block">Email</label>
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-                                <Mail size={18} />
-                            </span>
-                            <input
-                                type="email"
-                                placeholder="seu.email@example.com"
-                                className="w-full bg-[#1b1929] border border-gray-700/60 rounded-lg pl-10 pr-4 py-3 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] transition-colors"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                        <div>
+                            <label htmlFor="email" className="block mb-2 text-card-foreground">
+                                Email
+                            </label>
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                <input
+                                    id="email"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="seu.email@exemplo.com"
+                                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
                             {emailError && <p className="text-red-500 text-xs mt-1">{emailError}</p>}
                         </div>
-                    </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300 block">Senha</label>
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-                                <Lock size={18} />
-                            </span>
-                            <input
-                                type="password"
-                                placeholder="Enter your password"
-                                className="w-full bg-[#1b1929] border border-gray-700/60 rounded-lg pl-10 pr-4 py-3 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] transition-colors"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                        <div>
+                            <label htmlFor="password" className="block mb-2 text-card-foreground">
+                                Senha
+                            </label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                <input
+                                    id="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Crie uma senha forte"
+                                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
                             {passwordError && <p className="text-red-500 text-xs mt-1">{passwordError}</p>}
                         </div>
+
+                        <div>
+                            <label htmlFor="confirmPassword" className="block mb-2 text-card-foreground">
+                                Confirmação de Senha
+                            </label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                <input
+                                    id="confirmPassword"
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    placeholder="Confirme sua senha"
+                                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                />
+                            </div>
+                            {confirmPasswordError && <p className="text-red-500 text-xs mt-1">{confirmPasswordError}</p>}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                        >
+                            Registrar
+                        </button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                        <p className="text-sm text-muted-foreground">
+                            Já tem uma conta?{" "}
+                            <Link to="/login" className="text-primary hover:underline">
+                                Faça login
+                            </Link>
+                        </p>
                     </div>
-
-                    {/* Remember me & Forgot Password */}
-                    <div className="flex items-center justify-between text-xs sm:text-sm">
-                        <label className="flex items-center gap-2 cursor-pointer text-gray-400 hover:text-gray-300 select-none">
-                            <input
-                                type="checkbox"
-                                className="w-4 h-4 rounded bg-[#1b1929] border border-gray-700/60 checked:bg-[#8b5cf6] checked:border-[#8b5cf6] focus:ring-[#8b5cf6] focus:ring-offset-0 focus:ring-1 appearance-none cursor-pointer transition-colors"
-                            />
-                            Manter conectado
-                        </label>
-                        <a href="#" className="text-[#7c3aed] hover:text-[#9061f9] transition-colors font-medium">
-                            Esqueceu senha?
-                        </a>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="w-full bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-medium py-3 rounded-lg transition-colors shadow-lg shadow-[#8b5cf6]/20 active:scale-[0.99] transform"
-                    >
-                        Login
-                    </button>
-                </form>
-
-                {/* Footer do Card */}
-                <p className="text-center text-sm text-gray-400 mt-6">
-                    Don't have an account?{' '}
-                    <a href="#" className="text-[#7c3aed] hover:text-[#9061f9] transition-colors font-medium">
-                        Cadastrar
-                    </a>
-                </p>
+                </div>
             </div>
-
         </div>
-    )
+    );
 }
