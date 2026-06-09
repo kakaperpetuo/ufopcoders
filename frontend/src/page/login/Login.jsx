@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Mail, Lock } from 'lucide-react';
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Login(){
 
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('');
 
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('') 
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    
+    const { token, loading } = useContext(AuthContext);
 
     const handleLogin = (e) => {
         e.preventDefault(); 
