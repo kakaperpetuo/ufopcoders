@@ -8,3 +8,10 @@ db.sqlite3
 *.log
 .DS_Store
 .env
+
+# Dependências do Frontend
+node_modules/
+dist/
+
+
+

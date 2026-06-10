@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User } from "lucide-react";
+import { FetchRegisterUser } from "../../controllers/fetchRegisterUser";
+
+const fetchRegisterUser = new FetchRegisterUser();
 
 export default function Register() {
     const [name, setName] = useState("");
@@ -15,7 +18,7 @@ export default function Register() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         setNameError("");
@@ -57,7 +60,22 @@ export default function Register() {
 
         if (valido) {
             console.log("Register:", name, email, password);
-            navigate("/home");
+
+            try {
+                const response = await fetchRegisterUser.execute(name, email, password);
+
+                console.log("Sucesso no registro do usuario: ", response);
+
+                // Mostrar mensagem de sucesso no registro aqui aqui
+                
+                setTimeout(() => {
+                    navigate('/login'); 
+                }, 2000);
+
+            }catch(e) {
+                console.log("Erro no registro do usuario fora do controller: ", e);
+            }
+            //navigate("/home");
         }
     };
 

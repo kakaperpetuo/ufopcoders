@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom'
 import { Code2, Users, Rocket, Target } from 'lucide-react'
+import { AuthContext } from '../../contexts/AuthContext'
+import { useContext } from 'react'
+
 export default function Landing() {
+
+    const { token, logout } = useContext(AuthContext);
+
+
     return (
         <div className="dark min-h-screen bg-background">
             <header className="border-b border-border bg-card">
@@ -22,20 +29,31 @@ export default function Landing() {
                         </div>
                         <span className="text-primary">UFOP Coders</span>
                     </div>
-                    <div className="flex gap-3">
-                        <Link
-                            to="/login"
-                            className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
-                        >
-                            Login
-                        </Link>
-                        <Link
-                            to="/register"
-                            className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                        >
-                            Sign Up
-                        </Link>
-                    </div>
+                    {token ? (
+                        <div>
+                            <button
+                                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
+                                onClick={logout} 
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="flex gap-3">
+                            <Link
+                                to="/login"
+                                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                            >
+                                Sign Up
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </header>
             <main>
@@ -57,9 +75,20 @@ export default function Landing() {
                                 </svg>
                             </div>
                         </div>
-                        <h1 className="text-5xl mb-6 text-foreground">
-                            Bem-vindo ao UFOP Coders
-                        </h1>
+                        {token ? (
+
+                            <h1 className="text-5xl mb-6 text-foreground">
+                                Bem-vindo de volta!
+                            </h1>
+                    
+                        ) : (
+                            
+                            <h1 className="text-5xl mb-6 text-foreground">
+                                Bem-vindo ao UFOP Coders!
+                            </h1>
+
+                        )}
+                        
                         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                             Uma plataforma colaborativa onde desenvolvedores se unem para construir projetos inovadores.
                             Conecte-se com seus pares, compartilhe ideias e traga sua visão de programação à vida.
@@ -71,12 +100,18 @@ export default function Landing() {
                             >
                                 Comece Agora
                             </Link>
-                            <Link
-                                to="/login"
-                                className="px-8 py-4 rounded-lg border-2 border-primary text-primary hover:bg-primary/10 transition-colors text-lg"
-                            >
-                                Login
-                            </Link>
+                            {
+                                token ? (
+                                    <div></div>
+                                ) : (
+                                    <Link
+                                        to="/login"
+                                        className="px-8 py-4 rounded-lg border-2 border-primary text-primary hover:bg-primary/10 transition-colors text-lg"
+                                    >
+                                        Login
+                                    </Link>
+                                )
+                            }
                         </div>
                     </div>
                 </section>
@@ -120,21 +155,23 @@ export default function Landing() {
                         </div>
                     </div>
                 </section>
-                <section className="container mx-auto px-6 py-16">
-                    <div className="max-w-4xl mx-auto bg-card border border-border rounded-lg p-12 text-center">
-                        <h2 className="mb-4 text-card-foreground">Está pronto para codar junto?</h2>
-                        <p className="text-lg text-muted-foreground mb-8">
-                            Junte-se ao UFOP Coders hoje mesmo e descubra projetos que combinam com seus objetivos em programação
-                            linguagens, frameworks, IA, desenvolvimento web, blockchain e muito mais.
-                        </p>
-                        <Link
-                            to="/register"
-                            className="inline-block px-8 py-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-lg"
-                        >
-                            Crie sua conta
-                        </Link>
-                    </div>
-                </section>
+                {token ? (<div></div>) : (
+                    <section className="container mx-auto px-6 py-16">
+                        <div className="max-w-4xl mx-auto bg-card border border-border rounded-lg p-12 text-center">
+                            <h2 className="mb-4 text-card-foreground">Está pronto para codar junto?</h2>
+                            <p className="text-lg text-muted-foreground mb-8">
+                                Junte-se ao UFOP Coders hoje mesmo e descubra projetos que combinam com seus objetivos em programação
+                                linguagens, frameworks, IA, desenvolvimento web, blockchain e muito mais.
+                            </p>
+                            <Link
+                                to="/register"
+                                className="inline-block px-8 py-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-lg"
+                            >
+                                Crie sua conta
+                            </Link>
+                        </div>
+                    </section>
+                )}
             </main>
             <footer className="border-t border-border mt-20">
                 <div className="container mx-auto px-6 py-8 text-center text-muted-foreground">
