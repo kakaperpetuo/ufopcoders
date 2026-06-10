@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Mail, Lock } from 'lucide-react';
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { FetchUserAuthentication } from "../../controllers/fetchUserAutentication";
+import { useNavigate } from 'react-router-dom';
+
+const fetchUserAutentication = new FetchUserAuthentication();
 
 export default function Login(){
 
@@ -11,16 +15,18 @@ export default function Login(){
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     
-    const { token, loading } = useContext(AuthContext);
+    const { token, loading, login } = useContext(AuthContext);
 
-    const handleLogin = (e) => {
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
         e.preventDefault(); 
 
         let valido = true;
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
-            setEmailError("O e-mail é obrigatório")
+            setEmailError("O email é obrigatório")
             valido = false;
         }
         if (!password){
@@ -36,7 +42,21 @@ export default function Login(){
             valido = false;
         }
         if (valido){
-            console.log("Login:", email, password)
+
+            try {
+                console.log("Login:", email, password);
+
+                const response = await fetchUserAutentication.execute(email, password);
+
+                console.log("Sucesso na autenticação. Resposta: ", response);
+
+                login(response.data.access);
+
+                navigate('/');
+
+            } catch(e) {
+                console.log("Erro na autenticação: ", e);
+            }
         }
     }
     return (
@@ -62,7 +82,7 @@ export default function Login(){
                 </span>
                 <input
                     type="email"
-                    placeholder="seu.email@example.com"
+                    placeholder="seu email"
                     className="w-full bg-[#1b1929] border border-gray-700/60 rounded-lg pl-10 pr-4 py-3 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] transition-colors"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
