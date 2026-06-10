@@ -57,6 +57,8 @@ export default function Register() {
 
         if (valido) {
             console.log("Register:", name, email, password);
+
+            
             navigate("/home");
         }
     };

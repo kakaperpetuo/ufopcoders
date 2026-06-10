@@ -5,7 +5,7 @@ import { useContext } from 'react'
 
 export default function Landing() {
 
-    const { token } = useContext(AuthContext);
+    const { token, logout } = useContext(AuthContext);
 
 
     return (
@@ -29,7 +29,16 @@ export default function Landing() {
                         </div>
                         <span className="text-primary">UFOP Coders</span>
                     </div>
-                    {token ? (<div></div>) : (
+                    {token ? (
+                        <div>
+                            <button
+                                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
+                                onClick={logout} 
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
                         <div className="flex gap-3">
                             <Link
                                 to="/login"
