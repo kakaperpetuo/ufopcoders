@@ -35,6 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     bio         = models.TextField(blank=True, null=True)
     foto_perfil = models.URLField(blank=True, null=True)  # armazena a URL da imagem
     criado_em   = models.DateTimeField(auto_now_add=True)
+    cargo       = models.CharField(max_length=150, blank=True, null=True)
 
     # Obrigatórios pelo sistema de admin do Django
     is_active = models.BooleanField(default=True)
