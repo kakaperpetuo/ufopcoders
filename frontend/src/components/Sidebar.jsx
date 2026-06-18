@@ -53,7 +53,7 @@ export default function Sidebar({ user }) {
             {/* Card de contagem */}
             <div className="bg-secondary border border-primary rounded-[var(--radius)] px-5 py-5 mt-auto">
                 <p className="text-sm text-muted-foreground mb-2">Projetos realizados</p>
-                <strong className="text-1xl text-primary">Num</strong>
+                <strong className="text-2xl text-primary">Num</strong>
             </div>
         </aside>
     )
