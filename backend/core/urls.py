@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from api.views import CreateUserView
-
+from api.views import CreateProjectView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -31,5 +31,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('api/CreateUser/', CreateUserView.as_view(), name='create_user'),
+
+    path('api/projects/', CreateProjectView.as_view(), name='create_project'),
 
 ]

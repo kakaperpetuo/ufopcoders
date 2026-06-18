@@ -99,6 +99,8 @@ class Project(models.Model):
     descricao = models.TextField(blank=True, null=True)
     ativo     = models.BooleanField(default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
+    numero_de_membros = models.IntegerField(default=1) 
+
 
     # Requisitos do projeto → N:N com Tag (tabela intermediária: ProjectTag)
     tags = models.ManyToManyField(
