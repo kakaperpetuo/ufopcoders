@@ -1,23 +1,23 @@
-build: 
-	docker-compose up --build -d
+build:
+	docker compose up --build -d
 
 start:
-	docker-compose up -d
+	docker compose up -d
 
 start-live:
-	docker-compose up
+	docker compose up
 
 stop:
-	docker-compose down
+	docker compose down
 
 back:
-	docker-compose up backend
+	docker compose up backend
 
 front:
-	docker-compose up frontend
+	docker compose up frontend
 
 migrate:
-	docker-compose run --rm backend python manage.py migrate
+	docker compose run --rm backend python manage.py migrate
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
