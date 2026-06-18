@@ -1,10 +1,10 @@
 export default function Sidebar({ user }) {
     return (
-        <aside className="bg-sidebar border border-sidebar-border rounded-[var(--radius)] p-5 w-56 flex flex-col gap-4">
+        <aside className="bg-sidebar border border-sidebar-border rounded-[var(--radius)] p-5 w-80 flex flex-col gap-4">
 
             {/* Avatar + nome*/}
             <div className="flex flex-col items-center gap-2 pb-4 border-b border-border">
-                <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-accent-foreground text-xl overflow-hidden">
+                <div className="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-accent-foreground text-xl overflow-hidden">
                     {user.foto_perfil ? (
                         <img
                             src={user.foto_perfil}
@@ -28,7 +28,7 @@ export default function Sidebar({ user }) {
                     {user.tags?.map(tag => (
                         <span
                             key={tag.id}
-                            className="text-xs px-2.5 py-1 rounded-full bg-accent text-accent-foreground">
+                            className="text-sm px-3 py-1.5 rounded-full bg-accent text-accent-foreground">
                             {tag.nome}
                         </span>
                     ))}
@@ -51,9 +51,9 @@ export default function Sidebar({ user }) {
             </div>
 
             {/* Card de contagem */}
-            <div className="bg-secondary border border-border rounded-[var(--radius)] px-3 py-2">
-                <p className="text-xs text-muted-foreground">Projetos realizados</p>
-                <strong className="text-2x1 text-primary">Num</strong>
+            <div className="bg-secondary border border-primary rounded-[var(--radius)] px-5 py-5 mt-auto">
+                <p className="text-sm text-muted-foreground mb-2">Projetos realizados</p>
+                <strong className="text-1xl text-primary">Num</strong>
             </div>
         </aside>
     )
