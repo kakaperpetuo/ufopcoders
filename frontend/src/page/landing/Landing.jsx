@@ -33,7 +33,7 @@ export default function Landing() {
                         <div>
                             <button
                                 className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
-                                onClick={logout} 
+                                onClick={logout}
                             >
                                 Logout
                             </button>
@@ -80,25 +80,25 @@ export default function Landing() {
                             <h1 className="text-5xl mb-6 text-foreground">
                                 Bem-vindo de volta!
                             </h1>
-                    
+
                         ) : (
-                            
+
                             <h1 className="text-5xl mb-6 text-foreground">
                                 Bem-vindo ao UFOP Coders!
                             </h1>
 
                         )}
-                        
+
                         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                             Uma plataforma colaborativa onde desenvolvedores se unem para construir projetos inovadores.
                             Conecte-se com seus pares, compartilhe ideias e traga sua visão de programação à vida.
                         </p>
                         <div className="flex gap-4 justify-center">
                             <Link
-                                to="/register"
+                                to={token ? "/dashboard" : "/register"}
                                 className="px-8 py-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-lg"
                             >
-                                Comece Agora
+                                {token ? "Ir para o Dashboard" : "Comece Agora"}
                             </Link>
                             {
                                 token ? (

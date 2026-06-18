@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from api.views import CreateUserView
 from api.views import MeView
+from api.views import UploadFotoPerfilView
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -34,5 +35,7 @@ urlpatterns = [
     path('api/CreateUser/', CreateUserView.as_view(), name='create_user'),
 
     path('api/users/me/', MeView.as_view(), name='user-me'),
+
+    path('api/users/upload-foto/', UploadFotoPerfilView.as_view(), name='upload-foto'),
 
 ]
