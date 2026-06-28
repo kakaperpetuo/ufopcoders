@@ -9,7 +9,8 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserMeSerializer
+from .serializers import UserSerializer, UserMeSerializer, TagSerializer
+from .models import Tag
 
 User = get_user_model()
 
@@ -56,3 +57,9 @@ class UploadFotoPerfilView(APIView):
         request.user.save()
 
         return Response({"foto_perfil": url_publica})
+
+# endpoint para listar todas as tags disponíveis
+class TagListView(generics.ListAPIView):
+    queryset = Tag.objects.all().order_by('nome')
+    serializer_class = TagSerializer
+    permission_classes = [AllowAny]  # qualquer pessoa pode ver as tags
