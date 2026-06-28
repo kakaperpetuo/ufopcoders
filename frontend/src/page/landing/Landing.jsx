@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Code2, Users, Rocket, Target } from 'lucide-react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useContext } from 'react'
+import Header from '../../components/Header';
 
 export default function Landing() {
 
@@ -10,52 +11,7 @@ export default function Landing() {
 
     return (
         <div className="dark min-h-screen bg-background">
-            <header className="border-b border-border bg-card">
-                <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="relative w-10 h-10">
-                            <svg viewBox="0 0 40 40" className="w-full h-full">
-                                <text
-                                    x="20"
-                                    y="28"
-                                    fontSize="24"
-                                    fontWeight="bold"
-                                    textAnchor="middle"
-                                    fill="#8b5cf6"
-                                >
-                                    UC
-                                </text>
-                            </svg>
-                        </div>
-                        <span className="text-primary">UFOP Coders</span>
-                    </div>
-                    {token ? (
-                        <div>
-                            <button
-                                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
-                                onClick={logout}
-                            >
-                                Logout
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="flex gap-3">
-                            <Link
-                                to="/login"
-                                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-colors"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                to="/register"
-                                className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                            >
-                                Sign Up
-                            </Link>
-                        </div>
-                    )}
-                </div>
-            </header>
+            <Header />
             <main>
                 <section className="container mx-auto px-6 py-20 text-center">
                     <div className="max-w-4xl mx-auto">
