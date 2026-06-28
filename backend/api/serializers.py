@@ -24,9 +24,32 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['id', 'nome', 'logo']
 
+#serve para receber as tags do request, que são apenas nomes de tags, e não objetos Tag completos
+class TagInputSerializer(serializers.Serializer):
+    nome = serializers.CharField()
+
 class UserMeSerializer(serializers.ModelSerializer):
     tags  = TagSerializer(many=True, read_only=True)
+    # diferente de tags, tags_input é apenas para receber os nomes das tags do request, e não para retornar as tags completas
+    tags_input = TagInputSerializer(many=True, write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ['nome', 'email', 'bio', 'cargo', 'foto_perfil', 'tags']
+        fields = ['nome', 'email', 'bio', 'cargo', 'foto_perfil', 'tags', 'tags_input']
+        read_only_fields = ['email']  # email não pode ser alterado pelo patch
+
+    def update(self, instance, validated_data):
+        tags_data = validated_data.pop('tags_input', None) #pega as tags do request, se houver
+
+        #atualiza os campos simples do usuário
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        #atualiza as tags do usuário, se houver
+        if tags_data is not None:
+            tag_nomes = [t['nome'] for t in tags_data]
+            tags = Tag.objects.filter(nome__in=tag_nomes)
+            instance.tags.set(tags)
+
+        return instance

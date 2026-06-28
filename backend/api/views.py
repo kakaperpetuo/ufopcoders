@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
@@ -23,10 +23,12 @@ class CreateUserView(generics.CreateAPIView):
     # AllowAny é CRUCIAL aqui: significa que a pessoa NÃO precisa estar logada para criar uma conta
     permission_classes = [AllowAny]
 
-
-class MeView(RetrieveAPIView):
+# modifica para RetrieveUpdateAPIView para permitir PATCH
+class MeView(RetrieveUpdateAPIView):
     serializer_class = UserMeSerializer
     permission_classes = [IsAuthenticated]
+    # bloqueia put e só permite get e patch
+    http_method_names = ['get', 'patch']
 
     def get_object(self):
         # Retorna o usuário logado (self.request.user)
