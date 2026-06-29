@@ -74,13 +74,15 @@ class Tag(models.Model):
     nome = models.CharField(max_length=100, unique=True)
     logo = models.URLField(blank=True, null=True)  # URL do ícone da tecnologia
 
+    objects = models.Manager()
+
     class Meta:
         db_table = "tags"
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
 
     def __str__(self):
-        return self.nome
+        return str(self.nome)
 
 
 # ─────────────────────────────────────────────
@@ -98,8 +100,7 @@ class Project(models.Model):
     )
     titulo    = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, null=True)
-    ativo     = models.BooleanField(default=True)
-    criado_em = models.DateTimeField(auto_now_add=True)
+    numero_membros = models.PositiveIntegerField(default=1)
 
     # Requisitos do projeto → N:N com Tag (tabela intermediária: ProjectTag)
     tags = models.ManyToManyField(
@@ -109,13 +110,15 @@ class Project(models.Model):
         blank=True,
     )
 
+    objects = models.Manager()
+
     class Meta:
         db_table = "projects"
         verbose_name = "Projeto"
         verbose_name_plural = "Projetos"
 
     def __str__(self):
-        return self.titulo
+        return str(self.titulo)
 
 
 # ─────────────────────────────────────────────
@@ -179,7 +182,7 @@ class Link(models.Model):
         verbose_name_plural = "Links"
 
     def __str__(self):
-        return self.nome_do_link or self.url
+        return str(self.nome_do_link or self.url)
 
 
 # ─────────────────────────────────────────────

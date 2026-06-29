@@ -9,7 +9,8 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserMeSerializer
+from .serializers import UserSerializer, UserMeSerializer, ProjectSerializer
+from .models import Project
 
 User = get_user_model()
 
@@ -56,3 +57,11 @@ class UploadFotoPerfilView(APIView):
         request.user.save()
 
         return Response({"foto_perfil": url_publica})
+
+class ProjectCreateView(generics.CreateAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(dono=self.request.user)

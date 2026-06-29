@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Tag
+from .models import Project, Tag
 
 User = get_user_model()
 
@@ -30,3 +30,16 @@ class UserMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['nome', 'email', 'bio', 'cargo', 'foto_perfil', 'tags']
+
+class ProjectSerializer(serializers.ModelSerializer):
+    topicos = serializers.SlugRelatedField(
+        queryset=Tag.objects.all(),
+        many=True,
+        slug_field='nome',
+        required=False,
+        source='tags'
+    )
+
+    class Meta:
+        model = Project
+        fields = ['id', 'titulo', 'descricao', 'topicos', 'numero_membros']
