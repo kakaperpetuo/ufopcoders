@@ -19,6 +19,7 @@ from django.urls import path, include
 from api.views import CreateUserView
 from api.views import MeView
 from api.views import UploadFotoPerfilView, ProjectCreateView
+from api.views import TagListView
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -39,5 +40,6 @@ urlpatterns = [
     path('api/users/upload-foto/', UploadFotoPerfilView.as_view(), name='upload-foto'),
 
     path('api/projetos/', ProjectCreateView.as_view(), name='criar-projeto'),
+    path('api/tags/', TagListView.as_view(), name='tag-list'),
 
 ]
